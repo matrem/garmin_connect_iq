@@ -1,0 +1,7 @@
+# Do not hand edit this file. To make changes right click
+# on the project and select "Configure Monkey Barrels".
+
+TDFBase = "C:\Users\matrem\workspace\export\TDFBase-0.0.2.barrel"
+base.TDFBase.annotations = TDFBase
+base.barrelPath = $(base.barrelPath);$(TDFBase)
+
