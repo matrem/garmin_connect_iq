@@ -3,7 +3,7 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 import TDFBase;
 
-class TDFCurrentTimeApp extends TDFBase.TDFAppBase {
+class TDFPlayTimeApp extends TDFBase.TDFAppBase {
 
     function initialize() {
         TDFAppBase.initialize();
@@ -11,7 +11,7 @@ class TDFCurrentTimeApp extends TDFBase.TDFAppBase {
 
     //! Return the initial view of your application here
     function getInitialView() as Array<Views or InputDelegates>? {
-        return [ new TDFBase.TDFTimeView() ] as Array<Views or InputDelegates>;
+        return [ new TDFBase.TDFPlayTimeView() ] as Array<Views or InputDelegates>;
     }
 }
 

@@ -1,6 +1,6 @@
 module TDFBase {
 
-class TDFTimeView extends TDFBaseView {
+class TDFPlayTimeView extends TDFBaseView {
 	private var time;
 	private var sec, min, hour;
 	private var needUpdate = true;
@@ -23,7 +23,7 @@ class TDFTimeView extends TDFBaseView {
     }
     
     function compute(info as Activity.Info) as Void {
-        var newTime = info.elapsedTime / 1000;
+        var newTime = info.timerTime / 1000;
         
         if(time != newTime)
         {
