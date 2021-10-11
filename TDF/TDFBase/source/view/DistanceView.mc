@@ -2,8 +2,8 @@ module TDFBase {
 
 class DistanceView extends BaseView {
 	var distance = null;
-	var km;
-	var needUpdate;
+	var km = null;
+	var needUpdate = true;
 
 	function initialize() {
 		BaseView.initialize();

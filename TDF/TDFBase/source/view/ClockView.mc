@@ -1,7 +1,7 @@
 module TDFBase {
 
 class ClockView extends BaseView {
-	private var  min, hour;
+	private var min = null, hour = null;
 
 	function initialize() {
 		BaseView.initialize();

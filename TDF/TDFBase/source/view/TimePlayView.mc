@@ -1,7 +1,7 @@
 module TDFBase {
 
 class TimePlayView extends BaseView {
-	private var time;
+	private var time = null;
 	private var sec, min, hour;
 	private var needUpdate = true;
 
