@@ -1,3 +1,6 @@
+import Toybox.Activity;
+import Toybox.Lang;
+
 module TDFBase {
 
 class HeartRateCurrentView extends RateBaseView {
@@ -5,7 +8,7 @@ class HeartRateCurrentView extends RateBaseView {
 		RateBaseView.initialize();
 	}
 
-	function computeRate(info as Activity.Info) as Lang.Float {
+	function computeRate(info as Activity.Info) as Lang.Float? {
 		return info.currentHeartRate ;
 	}
 }

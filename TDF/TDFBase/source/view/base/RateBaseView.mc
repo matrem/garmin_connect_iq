@@ -1,16 +1,19 @@
+import Toybox.Activity;
+import Toybox.Lang;
+
 module TDFBase {
 
 class RateBaseView extends BaseView {
-	private var rate = null;
+	private var rate as Lang.Float? = null;
 
 	function initialize() {
 		BaseView.initialize();
 
-		unit0Text = "b";
-		unit1Text = "p";
-		unit2Text = "m";
+		unit0Str = "b";
+		unit1Str = "p";
+		unit2Str = "m";
 
-		valueText = "---";
+		valueStr = "---";
 
 		smallFieldBigFont = true;
 	}
@@ -28,17 +31,17 @@ class RateBaseView extends BaseView {
 
 			if(rate == null)
 			{
-				valueText = "---";
+				valueStr = "---";
 			}
 			else
 			{
-				valueText = rate.format("%d");
+				valueStr = rate.format("%d");
 			}
 		}
 	}
 
-	function computeRate(info as Activity.Info) as Lang.Float {
-		return 0.0f;
+	function computeRate(info as Activity.Info) as Lang.Float? {
+		return null;
 	}
 }
 

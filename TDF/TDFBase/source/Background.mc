@@ -6,7 +6,7 @@ module TDFBase {
 
 class Background extends WatchUi.Drawable {
 
-	hidden var mColor as ColorValue;
+	hidden var mColor as ColorType;
 
 	function initialize() {
 		var dictionary = {
@@ -18,7 +18,7 @@ class Background extends WatchUi.Drawable {
 		mColor = Graphics.COLOR_WHITE;
 	}
 
-	function setColor(color as ColorValue) as Void {
+	function setColor(color as ColorType) as Void {
 		mColor = color;
 	}
 

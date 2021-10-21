@@ -1,16 +1,21 @@
+import Toybox.Graphics;
+import Toybox.Activity;
+import Toybox.Lang;
+
 module TDFBase {
 
 class DistanceView extends BaseView {
-	var distance = null;
-	var km = null;
-	var needUpdate = true;
+	var distance as Lang.Float? = null;
+	var distancef as Lang.Float = 0.0;
+	var km as Lang.Boolean = false;
+	var needUpdate as Lang.Boolean = true;
 
 	function initialize() {
 		BaseView.initialize();
 
-		valueText = "---";
-		unit1Text = "";
-		unit2Text = "m";
+		valueStr = "---";
+		unit1Str = "";
+		unit2Str = "m";
 	}
 
 	protected function computeMaxValueText() {
@@ -35,22 +40,24 @@ class DistanceView extends BaseView {
 
 			if(distance!=null)
 			{
-				newKm = distance >= 1000.0;
+				distancef = distance;
+
+				newKm = distancef >= 1000.0;
 
 				if(newKm)
 				{
-					distance /= 1000.0;
+					distancef /= 1000.0;
 					needUpdate = true;
 				}
 				else
 				{
-					valueText = distance.format("%d");
+					valueStr = distancef.format("%d");
 				}
 			}
 			else
 			{
 				newKm = false;
-				valueText = "---";
+				valueStr = "---";
 			}
 
 			if(km != newKm)
@@ -59,13 +66,13 @@ class DistanceView extends BaseView {
 				needUpdateUnitText = true;
 				if(km)
 				{
-					unit1Text = "K";
-					unit2Text = "m";
+					unit1Str = "K";
+					unit2Str = "m";
 				}
 				else
 				{
-				 	unit1Text = "";
-					unit2Text = "m";
+				 	unit1Str = "";
+					unit2Str = "m";
 				}
 			}
 		}
@@ -81,11 +88,11 @@ class DistanceView extends BaseView {
 		{
 			if(getLongField())
 			{
-				valueText = distance.format("%.2f");
+				valueStr = distancef.format("%.2f");
 			}
 			else
 			{
-				valueText = distance.format("%.1f");
+				valueStr = distancef.format("%.1f");
 			}
 			needUpdate = false;
 		}

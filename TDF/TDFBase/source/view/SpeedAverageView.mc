@@ -1,3 +1,6 @@
+import Toybox.Activity;
+import Toybox.Lang;
+
 module TDFBase {
 
 class SpeedAverageView extends SpeedBaseView {
@@ -6,7 +9,7 @@ class SpeedAverageView extends SpeedBaseView {
 		setAverageView();
 	}
 
-	function computeSpeed(info as Activity.Info) as Lang.Float{
+	function computeSpeed(info as Activity.Info) as Lang.Float?{
 		return info.averageSpeed;
 	}
 }

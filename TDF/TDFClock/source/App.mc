@@ -1,13 +1,20 @@
+import Toybox.Lang;
+import Toybox.WatchUi;
+import Toybox.WatchUi;
+import Toybox.Application;
+
 module TDF{
 
-class App extends TDFBase.App {
+class App extends Application.AppBase {
 
 	function initialize() {
-		TDFBase.App.initialize();
+		Application.AppBase.initialize();
 	}
 
 	function getInitialView() as Array<Views or InputDelegates>? {
-		return [ new TDFBase.ClockView() ] as Array<Views or InputDelegates>;
+		return [
+			new TDFBase.ComputerView([new TDFBase.Computer.Clock()] as Array<TDFBase.Computer.ComputerBase>, 0)
+		] as Array<Views or InputDelegates>;
 	}
 
 }

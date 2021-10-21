@@ -7,31 +7,37 @@ module TDFBase {
 
 class BaseView extends WatchUi.DataField {
 
-	private var longField;
-	protected function getLongField() { return longField; }
+	private var longField as Lang.Boolean = false;
+	protected function getLongField() as Lang.Boolean { return longField; }
 
-	private var font100;
-	private var font64;
-	private var font54;
-	private var font46;
-	private var background;
-	private var value;
-	private var unit0;
-	private var unit1;
-	private var unit2;
-	private var valueFont;
+	private var font100 as Graphics.FontReference;
+	private var font64 as Graphics.FontReference;
+	private var font54 as Graphics.FontReference;
+	private var font46 as Graphics.FontReference;
+	private var valueFont as Graphics.FontReference;
 
-	protected var valueText;
-	protected var unit0Text = "";
-	protected var unit1Text = "";
-	protected var unit2Text = "";
-	protected var smallFieldBigFont = false;
-	private var lightColor = Graphics.COLOR_WHITE;
-	private var darkColor = Graphics.COLOR_BLACK;
+	private var background as Background?;
+	private function getBackground() as Background { return background; }
+	private var valueText  as WatchUi.Text?;
+	private function getValueText() as WatchUi.Text { return valueText; }
+	private var unit0Text as WatchUi.Text?;
+	private function getUnit0Text() as WatchUi.Text { return unit0Text; }
+	private var unit1Text as WatchUi.Text?;
+	private function getUnit1Text() as WatchUi.Text { return unit1Text; }
+	private var unit2Text as WatchUi.Text?;
+	private function getUnit2Text() as WatchUi.Text { return unit2Text; }
 
-	private var previousBackgroundColor = null;
-	protected var needUpdateUnitText = true;
-	private var needUpdateUnitX = true;
+	protected var valueStr as Lang.String = "";
+	protected var unit0Str as Lang.String = "";
+	protected var unit1Str as Lang.String = "";
+	protected var unit2Str as Lang.String = "";
+	protected var smallFieldBigFont as Lang.Boolean = false;
+	private var lightColor as Graphics.ColorValue = Graphics.COLOR_WHITE;
+	private var darkColor as Graphics.ColorValue = Graphics.COLOR_BLACK;
+
+	private var backgroundColor as Graphics.ColorType = Graphics.COLOR_TRANSPARENT;
+	protected var needUpdateUnitText as Lang.Boolean = true;
+	private var needUpdateUnitX as Lang.Boolean = true;
 
 	protected function setAverageView() as Void	{
 		lightColor = Graphics.COLOR_LT_GRAY;
@@ -41,23 +47,21 @@ class BaseView extends WatchUi.DataField {
 	function initialize() {
 		DataField.initialize();
 
-		font100 = WatchUi.loadResource(Rez.Fonts.roboto100);
-		font64 = WatchUi.loadResource(Rez.Fonts.roboto64);
-		font54 = WatchUi.loadResource(Rez.Fonts.roboto54);
-		font46 = WatchUi.loadResource(Rez.Fonts.roboto46);
+		font100 = WatchUi.loadResource(Rez.Fonts.roboto100) as Graphics.FontReference;
+		font64 = WatchUi.loadResource(Rez.Fonts.roboto64) as Graphics.FontReference;
+		font54 = WatchUi.loadResource(Rez.Fonts.roboto54) as Graphics.FontReference;
+		font46 = WatchUi.loadResource(Rez.Fonts.roboto46) as Graphics.FontReference;
+		valueFont = font100;
 	}
 
 	function onLayout(dc as Dc) as Void {
-
 		View.setLayout(Rez.Layouts.MainLayout(dc));
 
-		background = View.findDrawableById("Background");
-		value = View.findDrawableById("value");
-		unit0 = View.findDrawableById("unit0");
-		unit1 = View.findDrawableById("unit1");
-		unit2 = View.findDrawableById("unit2");
-
-		var text = value as Text;
+		background = View.findDrawableById("Background") as Background;
+		valueText = View.findDrawableById("value") as WatchUi.Text;
+		unit0Text = View.findDrawableById("unit0") as WatchUi.Text;
+		unit1Text = View.findDrawableById("unit1") as WatchUi.Text;
+		unit2Text = View.findDrawableById("unit2") as WatchUi.Text;
 
 		var fieldHeight = dc.getHeight();
 		var fieldWidth = dc.getWidth();
@@ -89,63 +93,64 @@ class BaseView extends WatchUi.DataField {
 			}
 		}
 
-		value.locY = (fieldHeight - Graphics.getFontHeight(valueFont)) / 2.0;
+		getValueText().locY = (fieldHeight - Graphics.getFontHeight(valueFont)) / 2.0;
 
 		var unitYCenter = (dc.getHeight() - Graphics.getFontHeight(Graphics.FONT_XTINY)) / 2.0;
 
-		unit0.locY = unitYCenter - 9;
-		unit1.locY = unitYCenter;
-		unit2.locY = unitYCenter + 9;
+		getUnit0Text().locY = unitYCenter - 9;
+		getUnit1Text().locY = unitYCenter;
+		getUnit2Text().locY = unitYCenter + 9;
 
-		text.setFont(valueFont);
+		getValueText().setFont(valueFont);
 
-		previousBackgroundColor = null;
+		backgroundColor = Graphics.COLOR_TRANSPARENT;
 		needUpdateUnitX = true;
 		updateUnitX(dc);
     }
 
-	private function updateUnitX(dc as Dc){
+	private function updateUnitX(dc as Dc) as Void{
 		if(needUpdateUnitX) {
 			needUpdateUnitX = false;
 			var textWidth = dc.getTextWidthInPixels(computeMaxValueText(), valueFont);
 			var unitX = dc.getWidth() - (dc.getWidth() - textWidth) / 2.0 + 7;
-			unit0.locX = unitX;
-			unit1.locX = unitX;
-			unit2.locX = unitX;
-	  	}
+
+			getUnit0Text().locX = unitX;
+			getUnit1Text().locX = unitX;
+			getUnit2Text().locX = unitX;
+		}
 	}
 
 	protected function computeMaxValueText() as Lang.String {
 		return "";
 	}
 
-	private function updateBackgroundColor() {
-		var backgroundColor = getBackgroundColor();
+	private function updateBackgroundColor() as Void {
+		var newBackgroundColor = getBackgroundColor();
 
-		if(backgroundColor != previousBackgroundColor)
+		if(backgroundColor != newBackgroundColor)
 		{
-			previousBackgroundColor = backgroundColor;
+			backgroundColor = newBackgroundColor;
 
-			background.setColor(backgroundColor);
+			getBackground().setColor(backgroundColor);
 
 			var color = darkColor;
 			if (backgroundColor == Graphics.COLOR_BLACK) {
 				color = lightColor;
 			}
 
-			value.setColor(color);
-			unit0.setColor(color);
-			unit1.setColor(color);
-			unit2.setColor(color);
+			getValueText().setColor(color);
+			getUnit0Text().setColor(color);
+			getUnit1Text().setColor(color);
+			getUnit2Text().setColor(color);
 		}
 	}
 
-	private function updateUnitText() {
+	private function updateUnitText() as Void{
 		if(needUpdateUnitText) {
 			needUpdateUnitText = needUpdateUnitText;
-			unit0.setText(unit0Text);
-			unit1.setText(unit1Text);
-			unit2.setText(unit2Text);
+			getUnit0Text().setText(unit0Str);
+			getUnit1Text().setText(unit1Str);
+			getUnit2Text().setText(unit2Str);
 		}
 	}
 
@@ -154,7 +159,7 @@ class BaseView extends WatchUi.DataField {
 		updateUnitText();
 		updateUnitX(dc);
 
-		value.setText(valueText);
+		getValueText().setText(valueStr);
 
 		View.onUpdate(dc);
 	}

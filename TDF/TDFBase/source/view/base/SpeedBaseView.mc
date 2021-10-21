@@ -1,15 +1,18 @@
+import Toybox.Activity;
+import Toybox.Lang;
+
 module TDFBase {
 
 class SpeedBaseView extends BaseView {
-	private var speed = null;
+	private var speed as Lang.Float? = null;
 
 	function initialize() {
 		BaseView.initialize();
-		unit0Text = "Km";
-		unit1Text = "p";
-		unit2Text = "h";
+		unit0Str = "Km";
+		unit1Str = "p";
+		unit2Str = "h";
 		smallFieldBigFont = true;
-		valueText = "--.-";
+		valueStr = "--.-";
 	}
 
 	protected function computeMaxValueText() {
@@ -26,16 +29,16 @@ class SpeedBaseView extends BaseView {
 			if(speed != null)
 			{
 				speed *= 3.6;
-				valueText = speed.format("%.1f");
+				valueStr = speed.format("%.1f");
 			}
 			else
 			{
-				valueText = "--.-";
+				valueStr = "--.-";
 			}
 		}
 	}
 
-	function computeSpeed(info as Activity.Info) as Lang.Float {
+	function computeSpeed(info as Activity.Info) as Lang.Float? {
 		return null;
 	}
 }

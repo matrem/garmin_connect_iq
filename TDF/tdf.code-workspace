@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": "TDFBase"
+		},
+		{
+			"path": "TDFCadenceCurrent"
+		},
+		{
+			"path": "TDFClock"
+		},
+		{
+			"path": "TDFDistance"
+		},
+		{
+			"path": "TDFHeartRateCurrent"
+		},
+		{
+			"path": "TDFSpeedAverage"
+		},
+		{
+			"path": "TDFSpeedCurrent"
+		},
+		{
+			"path": "TDFTemperature"
+		},
+		{
+			"path": "TDFTimePlay"
+		}
+	]
+}

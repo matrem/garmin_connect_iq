@@ -1,14 +1,20 @@
+import Toybox.Activity;
+import Toybox.Graphics;
+import Toybox.Lang;
+
 module TDFBase {
 
 class TimePlayView extends BaseView {
-	private var time = null;
-	private var sec, min, hour;
-	private var needUpdate = true;
+	private var time as Lang.Number? = null;
+	private var sec as Lang.Number = 0;
+	private var min as Lang.Number = 0;
+	private var hour as Lang.Number = 0;
+	private var needUpdate as Lang.Boolean = true;
 
 	function initialize() {
 		BaseView.initialize();
 		smallFieldBigFont = true;
-		valueText = "--:--";
+		valueStr = "--:--";
 	}
 
 	protected function computeMaxValueText() {
@@ -23,7 +29,7 @@ class TimePlayView extends BaseView {
 	}
 
 	function compute(info as Activity.Info) as Void {
-		var newTime = info.timerTime / 1000;
+		var newTime = info.timerTime;
 
 		if(time != newTime)
 		{
@@ -31,6 +37,7 @@ class TimePlayView extends BaseView {
 
 			if(time != null)
 			{
+				time /= 1000;
 				sec = time;
 				hour = sec / 3600;
 				sec -= hour * 3600;
@@ -54,14 +61,14 @@ class TimePlayView extends BaseView {
 			{
 				if(getLongField())
 				{
-					valueText = Lang.format(
+					valueStr = Lang.format(
 						"$1$:$2$:$3$",
 						[hour.format("%02d"), min.format("%02d"), sec.format("%02d")]
 					);
 				}
 				else
 				{
-					valueText = Lang.format(
+					valueStr = Lang.format(
 						"$1$:$2$",
 						[hour.format("%02d"), min.format("%02d")]
 					);
@@ -71,11 +78,11 @@ class TimePlayView extends BaseView {
 			{
 				if(getLongField())
 				{
-					valueText = "--:--:--";
+					valueStr = "--:--:--";
 				}
 				else
 				{
-					valueText = "--:--";
+					valueStr = "--:--";
 				}
 			}
 			needUpdate = false;

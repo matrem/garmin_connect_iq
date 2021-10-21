@@ -1,12 +1,18 @@
+using Toybox.Activity;
+using Toybox.Lang;
+using Toybox.Time;
+using Toybox.System;
+
 module TDFBase {
 
 class ClockView extends BaseView {
-	private var min = null, hour = null;
+	private var min as Lang.Number = 0;
+	private var hour as Lang.Number = 0;
 
 	function initialize() {
 		BaseView.initialize();
 		smallFieldBigFont = true;
-		valueText = "--:--";
+		valueStr = "00:00";
 	}
 
 	protected function computeMaxValueText() {
@@ -14,17 +20,17 @@ class ClockView extends BaseView {
 	}
 
 	function compute(info as Activity.Info) as Void {
-		var time = System.getClockTime();
+		var newTime = System.getClockTime();
 
-		var newHour = time.hour;
-		var newMin = time.min;
+		var newHour = newTime.hour;
+		var newMin = newTime.min;
 
 		if(hour != newHour || min != newMin)
 		{
 			hour = newHour;
 			min = newMin;
 
-			valueText = Lang.format(
+			valueStr = Lang.format(
 				"$1$:$2$",
 				[hour.format("%02d"), min.format("%02d")]
 			);
