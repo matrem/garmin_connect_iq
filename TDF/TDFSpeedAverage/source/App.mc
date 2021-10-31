@@ -10,7 +10,7 @@ class App extends Application.AppBase {
 	}
 
 	function getInitialView() as Array<Views or InputDelegates>? {
-		return [ new TDFBase.SpeedAverageView() ] as Array<Views or InputDelegates>;
+		return [ new TDFBase.ComputerView(new TDFBase.Computer.SpeedAverage()) ] as Array<Views or InputDelegates>;
 	}
 }
 

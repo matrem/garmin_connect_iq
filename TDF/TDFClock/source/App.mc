@@ -13,7 +13,7 @@ class App extends Application.AppBase {
 
 	function getInitialView() as Array<Views or InputDelegates>? {
 		return [
-			new TDFBase.ComputerView([new TDFBase.Computer.Clock()] as Array<TDFBase.Computer.ComputerBase>, 0)
+			new TDFBase.ComputerView(new TDFBase.Computer.Clock())
 		] as Array<Views or InputDelegates>;
 	}
 

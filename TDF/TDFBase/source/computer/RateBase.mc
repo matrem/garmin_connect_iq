@@ -19,7 +19,7 @@ class RateBase extends ComputerBase {
 		smallFieldBigFont = true;
 	}
 
-	protected function computeMaxValueStr(longField as Lang.Boolean) {
+	public function computeMaxValueStr(longField as Lang.Boolean) as Lang.String {
 		return "999";
 	}
 

@@ -32,25 +32,18 @@ class ComputerView extends WatchUi.DataField {
 	private var darkColor as Graphics.ColorValue = Graphics.COLOR_BLACK;
 
 	private var backgroundColor as Graphics.ColorType = Graphics.COLOR_TRANSPARENT;
-	private  var needUpdateUnitText as Lang.Boolean = true;
 	private var needUpdateUnitX as Lang.Boolean = true;
-	private var needUpdateValueFont as Lang.Boolean = true;
-	private var needUpdateComputerInfo as Lang.Boolean = true;
-
-	private var computerChangeTimer as Lang.Number = 0;
-	private var computerChangeTime as Lang.Number = 0;
-	private var computers as Lang.Array<Computer.ComputerBase>;
-	private var computer as Computer.ComputerBase;
-	private var computerIdx as Lang.Number = 0;
-	private var smallFieldBigFont as Lang.Boolean = false;
 	private var maxValueStr as Lang.String = "";
 
-	function initialize( initComputers as Lang.Array<Computer.ComputerBase>, initComputerChangeTimer as Lang.Number ) {
+	protected var needUpdateValueFont as Lang.Boolean = true;
+	protected var smallFieldBigFont as Lang.Boolean = false;
+	protected var computer as Computer.ComputerBase;
+	protected  var needUpdateUnitText as Lang.Boolean = true;
+
+	function initialize( initComputer as Computer.ComputerBase ) {
 		DataField.initialize();
 
-		computers = initComputers;
-		computer = computers[computerIdx];
-		computerChangeTimer = initComputerChangeTimer;
+		computer = initComputer;
 
 		font100 = WatchUi.loadResource(Rez.Fonts.roboto100) as Graphics.FontReference;
 		font64 = WatchUi.loadResource(Rez.Fonts.roboto64) as Graphics.FontReference;
@@ -60,6 +53,8 @@ class ComputerView extends WatchUi.DataField {
 	}
 
 	function onLayout(dc as Dc) as Void {
+		//System.println("onLayout");
+
 		View.setLayout(Rez.Layouts.MainLayout(dc));
 
 		background = View.findDrawableById("Background") as Background;
@@ -77,55 +72,30 @@ class ComputerView extends WatchUi.DataField {
 		//Unit Y
 		var unitYCenter = (fieldHeight - Graphics.getFontHeight(Graphics.FONT_XTINY)) / 2.0;
 
-		getUnit0Text().locY = unitYCenter - 9;
+		getUnit0Text().locY = unitYCenter - 10;
 		getUnit1Text().locY = unitYCenter;
-		getUnit2Text().locY = unitYCenter + 9;
+		getUnit2Text().locY = unitYCenter + 10;
 
 		updateMaxValueStr();
 
-		for (var i = 0; i < computers.size(); i++) {
-			computers[i].onLayout();
-		}
-
 		needUpdateValueFont = true;
+		needUpdateUnitX = true;
+		needUpdateUnitText = true;
+
+		forwardLayout();
 	}
 
-	private function updateMaxValueStr() as Void {
+	function forwardLayout() as Void
+	{
+		computer.onLayout();
+	}
+
+	protected function updateMaxValueStr() as Void {
 		var newMaxValueStr = computer.computeMaxValueStr(longField);
 		if(maxValueStr != newMaxValueStr)
 		{
 			maxValueStr = newMaxValueStr;
 			needUpdateUnitX = true;
-		}
-	}
-
-	private function nextComputer() as Void {
-		++computerIdx;
-
-		if(computerIdx>=computers.size())
-		{
-			computerIdx = 0;
-		}
-		computer = computers[computerIdx];
-		needUpdateComputerInfo = true;
-		needUpdateUnitText = true;
-	}
-
-	private function updateComputerInfos() as Void {
-		if(needUpdateComputerInfo) {
-			needUpdateComputerInfo = false;
-
-			needUpdateUnitText = computer.getNeedUpdateUnitText();
-
-			var newSmallFieldBigFont = computer.getSmallFieldBigFont();
-
-			if(smallFieldBigFont != newSmallFieldBigFont)
-			{
-				smallFieldBigFont = newSmallFieldBigFont;
-				needUpdateValueFont = true;
-			}
-
-			updateMaxValueStr();
 		}
 	}
 
@@ -173,6 +143,8 @@ class ComputerView extends WatchUi.DataField {
 			var textWidth = dc.getTextWidthInPixels(maxValueStr, valueFont);
 			var unitX = fieldWidth - (fieldWidth - textWidth) / 2.0 + 7;
 
+			//System.println("updateUnitX : " + unitX + " from maxValueStr : " + maxValueStr);
+
 			getUnit0Text().locX = unitX;
 			getUnit1Text().locX = unitX;
 			getUnit2Text().locX = unitX;
@@ -184,6 +156,8 @@ class ComputerView extends WatchUi.DataField {
 
 		if(backgroundColor != newBackgroundColor)
 		{
+			//System.println("updateBackgroundColor");
+
 			backgroundColor = newBackgroundColor;
 
 			getBackground().setColor(backgroundColor);
@@ -200,19 +174,36 @@ class ComputerView extends WatchUi.DataField {
 		}
 	}
 
+	// private function logUpdateUnitText() as Void
+	// {
+	// 	System.println("updateUnitText");
+	// 	System.println("unit0str : " + computer.getUnit0Str());
+	// 	System.println("unit1str : " + computer.getUnit1Str());
+	// 	System.println("unit2str : " + computer.getUnit2Str());
+	// }
+
 	private function updateUnitText() as Void{
+		//System.println("should updateUnitText : " + (needUpdateUnitText ? "true" : "false"));
+
 		if(needUpdateUnitText) {
 			needUpdateUnitText = false;
+			//logUpdateUnitText();
 			getUnit0Text().setText(computer.getUnit0Str());
 			getUnit1Text().setText(computer.getUnit1Str());
 			getUnit2Text().setText(computer.getUnit2Str());
 		}
 	}
 
+	protected function updateComputerInfos() as Void {
+		needUpdateUnitText = needUpdateUnitText || computer.getNeedUpdateUnitText();
+	}
+
 	function onUpdate(dc as Dc) as Void {
+		//System.println("onUpdate");
+
+		updateComputerInfos();
 		updateBackgroundColor();
 		updateUnitText();
-		updateComputerInfos();
 		updateValueFont();
 		updateUnitX(dc);
 
@@ -224,16 +215,6 @@ class ComputerView extends WatchUi.DataField {
 	}
 
 	function compute(info as Activity.Info) as Void {
-
-		if(computerChangeTimer!=0)
-		{
-			++computerChangeTime;
-			if(computerChangeTime>=computerChangeTimer)
-			{
-				nextComputer();
-				computerChangeTime = 0;
-			}
-		}
 		computer.compute(info);
 	}
 }

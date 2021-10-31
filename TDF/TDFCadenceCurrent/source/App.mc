@@ -11,7 +11,7 @@ class App extends Application.AppBase {
 	}
 
 	function getInitialView() as Array<Views or InputDelegates>? {
-		return [ new TDFBase.CadenceView() ] as Array<Views or InputDelegates>;
+		return [ new TDFBase.ComputerView(new TDFBase.Computer.Cadence()) ] as Array<Views or InputDelegates>;
 	}
 
 }

@@ -1,6 +1,6 @@
 <fonts>
-   <font id="roboto100" filename="roboto100.fnt" antialias="true" filter="0123456789.:-%" />
-   <font id="roboto64" filename="roboto64.fnt" antialias="true" filter="0123456789.:-%" />
-   <font id="roboto54" filename="roboto54.fnt" antialias="true" filter="0123456789.:-%" />
-   <font id="roboto46" filename="roboto46.fnt" antialias="true" filter="0123456789.:-%" />
+	<font id="roboto100" filename="roboto100.fnt" antialias="true" filter="0123456789.:-%°" />
+	<font id="roboto64" filename="roboto64.fnt" antialias="true" filter="0123456789.:-%°" />
+	<font id="roboto54" filename="roboto54.fnt" antialias="true" filter="0123456789.:-%°" />
+	<font id="roboto46" filename="roboto46.fnt" antialias="true" filter="0123456789.:-%°" />
 </fonts>

@@ -16,7 +16,7 @@ class Clock extends ComputerBase {
 		valueStr = "00:00";
 	}
 
-	protected function computeMaxValueStr(longField as Lang.Boolean) {
+	public function computeMaxValueStr(longField as Lang.Boolean) as Lang.String {
 		return "00:00";
 	}
 

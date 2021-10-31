@@ -16,7 +16,7 @@ class SpeedBase extends ComputerBase {
 		valueStr = "--.-";
 	}
 
-	protected function computeMaxValueStr(longField as Lang.Boolean) {
+	public function computeMaxValueStr(longField as Lang.Boolean) as Lang.String {
 		return "99.9";
 	}
 

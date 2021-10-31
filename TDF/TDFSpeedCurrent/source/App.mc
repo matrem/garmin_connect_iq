@@ -12,7 +12,7 @@ class App extends Application.AppBase {
 
 	public function getInitialView() as Array<Views or InputDelegates>? {
 		return [
-			new TDFBase.ComputerView([new TDFBase.Computer.SpeedCurrent()] as Array<TDFBase.Computer.ComputerBase>, 0)
+			new TDFBase.ComputerView(new TDFBase.Computer.SpeedCurrent())
 		] as Array<Views or InputDelegates>;
 	}
 }

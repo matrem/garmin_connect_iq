@@ -5,7 +5,7 @@ module TDFBase {
 module Computer{
 
 class Temperature extends ComputerBase {
-	public static const TEMPERATURE_STORAGE_ID as Lang.String = "TDFStorage_Temperature";
+	public static const STORAGE_ID as Lang.String = "TDFStorage_Temperature";
 	private var temp as Lang.Number? = null;
 
 	function initialize() {
@@ -17,12 +17,12 @@ class Temperature extends ComputerBase {
 		valueStr = "--";
 	}
 
-	protected function computeMaxValueStr(longField as Lang.Boolean) as Lang.String{
+	public function computeMaxValueStr(longField as Lang.Boolean) as Lang.String{
 		return "-99";
 	}
 
 	function compute(info as Activity.Info) as Void {
-		var newTemp = Application.Storage.getValue(TEMPERATURE_STORAGE_ID);
+		var newTemp = Application.Storage.getValue(STORAGE_ID);
 
 		if(temp != newTemp)
 		{

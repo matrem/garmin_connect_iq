@@ -17,7 +17,10 @@ class App extends Application.AppBase {
 	function getInitialView() as Array<Views or InputDelegates>? {
 		Background.registerForTemporalEvent(new Time.Duration(5 * 60));
 
-		return [ new TDFBase.ComputerView(new TDFBase.Computer.Temperature()) ] as Array<Views or InputDelegates>;
+		return [ new TDFBase.ComputerMultiView(
+			[new TDFBase.Computer.Clock(), new TDFBase.Computer.Temperature()] as Array<TDFBase.Computer.ComputerBase>
+			, 5)
+		] as Array<Views or InputDelegates>;
 	}
 
 	function getServiceDelegate() as  Lang.Array<System.ServiceDelegate>{

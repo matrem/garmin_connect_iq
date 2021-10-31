@@ -17,7 +17,7 @@ class TimePlay extends ComputerBase {
 		valueStr = "--:--";
 	}
 
-	protected function computeMaxValueStr(longField as Lang.Boolean) as Lang.String {
+	public function computeMaxValueStr(longField as Lang.Boolean) as Lang.String {
 		if(longField)
 		{
 			return "00:00:00";

@@ -18,7 +18,7 @@ class Distance extends ComputerBase {
 		unit2Str = "m";
 	}
 
-	protected function computeMaxValueStr(longField as Lang.Boolean) {
+	public function computeMaxValueStr(longField as Lang.Boolean) as Lang.String {
 		if(longField)
 		{
 			return "999.99";
