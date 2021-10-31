@@ -18,6 +18,12 @@ class ComputerBase {
 		needUpdateUnitText = false;
 		return tmp;
 	}
+	protected var needUpdatePrefixText as Lang.Boolean = true;
+	public function getNeedUpdatePrefixText() as Lang.Boolean {
+		var tmp = needUpdatePrefixText;
+		needUpdatePrefixText = false;
+		return tmp;
+	}
 
 	protected var unit0Str as Lang.String = "";
 	public function getUnit0Str() as Lang.String { return unit0Str; }
@@ -25,6 +31,8 @@ class ComputerBase {
 	public function getUnit1Str() as Lang.String { return unit1Str; }
 	protected var unit2Str as Lang.String = "";
 	public function getUnit2Str() as Lang.String { return unit2Str; }
+	protected var prefixStr as Lang.String = "";
+	public function getPrefixStr() as Lang.String { return prefixStr; }
 
 	public function computeMaxValueStr(longField as Lang.Boolean) as Lang.String { return ""; }
 

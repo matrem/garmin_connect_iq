@@ -27,18 +27,21 @@ class ComputerView extends WatchUi.DataField {
 	private function getUnit1Text() as WatchUi.Text { return unit1Text; }
 	private var unit2Text as WatchUi.Text?;
 	private function getUnit2Text() as WatchUi.Text { return unit2Text; }
+	private var prefixText as WatchUi.Text?;
+	private function getPrefixText() as WatchUi.Text { return prefixText; }
 
 	private var lightColor as Graphics.ColorValue = Graphics.COLOR_WHITE;
 	private var darkColor as Graphics.ColorValue = Graphics.COLOR_BLACK;
 
 	private var backgroundColor as Graphics.ColorType = Graphics.COLOR_TRANSPARENT;
-	private var needUpdateUnitX as Lang.Boolean = true;
+	private var needUpdateLayoutX as Lang.Boolean = true;
 	private var maxValueStr as Lang.String = "";
 
 	protected var needUpdateValueFont as Lang.Boolean = true;
 	protected var smallFieldBigFont as Lang.Boolean = false;
 	protected var computer as Computer.ComputerBase;
 	protected  var needUpdateUnitText as Lang.Boolean = true;
+	protected  var needUpdatePrefixText as Lang.Boolean = true;
 
 	function initialize( initComputer as Computer.ComputerBase ) {
 		DataField.initialize();
@@ -62,6 +65,7 @@ class ComputerView extends WatchUi.DataField {
 		unit0Text = View.findDrawableById("unit0") as WatchUi.Text;
 		unit1Text = View.findDrawableById("unit1") as WatchUi.Text;
 		unit2Text = View.findDrawableById("unit2") as WatchUi.Text;
+		prefixText = View.findDrawableById("prefix") as WatchUi.Text;
 
 		backgroundColor = Graphics.COLOR_TRANSPARENT;
 
@@ -76,11 +80,15 @@ class ComputerView extends WatchUi.DataField {
 		getUnit1Text().locY = unitYCenter;
 		getUnit2Text().locY = unitYCenter + 10;
 
+		var prefixYCenter = (fieldHeight - Graphics.getFontHeight(Graphics.FONT_SMALL)) / 2.0;
+		getPrefixText().locY = prefixYCenter;
+
 		updateMaxValueStr();
 
 		needUpdateValueFont = true;
-		needUpdateUnitX = true;
+		needUpdateLayoutX = true;
 		needUpdateUnitText = true;
+		needUpdatePrefixText = true;
 
 		forwardLayout();
 	}
@@ -95,7 +103,7 @@ class ComputerView extends WatchUi.DataField {
 		if(maxValueStr != newMaxValueStr)
 		{
 			maxValueStr = newMaxValueStr;
-			needUpdateUnitX = true;
+			needUpdateLayoutX = true;
 		}
 	}
 
@@ -132,22 +140,25 @@ class ComputerView extends WatchUi.DataField {
 			getValueText().locY = (fieldHeight - Graphics.getFontHeight(valueFont)) / 2.0;
 			getValueText().setFont(valueFont);
 
-			needUpdateUnitX = true;
+			needUpdateLayoutX = true;
 		}
 	}
 
-	private function updateUnitX(dc as Dc) as Void{
-		if(needUpdateUnitX) {
-			needUpdateUnitX = false;
+	private function updateLayoutX(dc as Dc) as Void{
+		if(needUpdateLayoutX) {
+			needUpdateLayoutX = false;
 
 			var textWidth = dc.getTextWidthInPixels(maxValueStr, valueFont);
 			var unitX = fieldWidth - (fieldWidth - textWidth) / 2.0 + 7;
+			var prefixX = (fieldWidth - textWidth) / 2.0 - 10;
 
-			//System.println("updateUnitX : " + unitX + " from maxValueStr : " + maxValueStr);
+			//System.println("updateLayoutX : " + unitX + " from maxValueStr : " + maxValueStr);
 
 			getUnit0Text().locX = unitX;
 			getUnit1Text().locX = unitX;
 			getUnit2Text().locX = unitX;
+
+			getPrefixText().locX = prefixX;
 		}
 	}
 
@@ -194,8 +205,16 @@ class ComputerView extends WatchUi.DataField {
 		}
 	}
 
+	private function updatePrefixText() as Void {
+		if(needUpdatePrefixText) {
+			needUpdatePrefixText = false;
+			getPrefixText().setText(computer.getPrefixStr());
+		}
+	}
+
 	protected function updateComputerInfos() as Void {
 		needUpdateUnitText = needUpdateUnitText || computer.getNeedUpdateUnitText();
+		needUpdatePrefixText = needUpdatePrefixText || computer.getNeedUpdatePrefixText();
 	}
 
 	function onUpdate(dc as Dc) as Void {
@@ -204,8 +223,9 @@ class ComputerView extends WatchUi.DataField {
 		updateComputerInfos();
 		updateBackgroundColor();
 		updateUnitText();
+		updatePrefixText();
 		updateValueFont();
-		updateUnitX(dc);
+		updateLayoutX(dc);
 
 		computer.onUpdate(longField);
 

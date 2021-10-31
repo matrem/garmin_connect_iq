@@ -28,8 +28,10 @@
 			"path": "TDFTimePlay"
 		},
 		{
-			"name": "TDFClockTemperature",
-			"path": "TDFClockTemperature"
+			"path": "TDFMulti
+		},
+		{
+			"path": "TDFAscent"
 		}
 	]
 }

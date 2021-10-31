@@ -35,6 +35,7 @@ class ComputerMultiView extends ComputerView {
 		computer = computers[computerIdx];
 		needUpdateComputerInfo = true;
 		needUpdateUnitText = true;
+		needUpdatePrefixText = true;
 	}
 
 	protected function updateComputerInfos() as Void {

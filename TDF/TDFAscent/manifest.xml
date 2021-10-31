@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<iq:manifest version="3" xmlns:iq="http://www.garmin.com/xml/connectiq">
+	<iq:application id="30a50688-f14c-452e-ab74-cceb5be5fe72" type="datafield" name="@Strings.AppName" entry="TDF.App" launcherIcon="@Drawables.LauncherIcon" minApiLevel="3.2.0">
+		<iq:products>
+			<iq:product id="edge530" />
+		</iq:products>
+		<iq:permissions />
+		<iq:languages>
+			<iq:language>eng</iq:language>
+		</iq:languages>
+		<iq:barrels>
+			<iq:depends name="TDFBase" version="0.0.5" />
+		</iq:barrels>
+	</iq:application>
+</iq:manifest>

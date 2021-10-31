@@ -8,29 +8,33 @@ module Computer{
 class Distance extends ComputerBase {
 	var distance as Lang.Float? = null;
 	var distancef as Lang.Float = 0.0;
+	var prefixValue as Lang.Number = 0;
 	var km as Lang.Boolean = false;
 
 	function initialize() {
 		ComputerBase.initialize();
 
+		smallFieldBigFont = true;
 		valueStr = "---";
 		unit1Str = "";
 		unit2Str = "m";
+		prefixStr = "";
 	}
 
 	public function computeMaxValueStr(longField as Lang.Boolean) as Lang.String {
 		if(longField)
 		{
-			return "999.99";
+			return "99.99";
 		}
 		else
 		{
-			return "999.9";
+			return "99.9";
 		}
 	}
 
 	function compute(info as Activity.Info) as Void {
 		var newDistance = info.elapsedDistance;
+		var newPrefixValue = 0 as Lang.Number;
 
 		if(distance != newDistance)
 		{
@@ -48,6 +52,10 @@ class Distance extends ComputerBase {
 				{
 					distancef /= 1000.0;
 					needUpdate = true;
+					newPrefixValue = (distancef / 100).toNumber();
+					//System.println("newPrefixValue : " + newPrefixValue);
+					distancef -= newPrefixValue * 100;
+					//System.println("distancef : " + distancef);
 				}
 				else
 				{
@@ -74,6 +82,13 @@ class Distance extends ComputerBase {
 				 	unit1Str = "";
 					unit2Str = "m";
 				}
+			}
+
+			if(prefixValue != newPrefixValue)
+			{
+				prefixValue = newPrefixValue;
+				prefixStr = prefixValue.format("%d");
+				needUpdatePrefixText = true;
 			}
 		}
 	}

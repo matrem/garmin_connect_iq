@@ -18,7 +18,7 @@ class App extends Application.AppBase {
 		Background.registerForTemporalEvent(new Time.Duration(5 * 60));
 
 		return [ new TDFBase.ComputerMultiView(
-			[new TDFBase.Computer.Clock(), new TDFBase.Computer.Temperature()] as Array<TDFBase.Computer.ComputerBase>
+			[new TDFBase.Computer.Clock(), new TDFBase.Computer.Temperature(), new TDFBase.Computer.Ascent()] as Array<TDFBase.Computer.ComputerBase>
 			, 5)
 		] as Array<Views or InputDelegates>;
 	}
